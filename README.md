@@ -1,2 +1,2 @@
 # Project DataFellas 2026
-Automasi Riset Kualitati
+Automasi Riset Kualitatif
