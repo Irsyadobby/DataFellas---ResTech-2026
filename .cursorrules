@@ -1,0 +1,50 @@
+# .cursorrules - Project Context & Rules
+
+## Project Overview
+You are an expert Senior Full Stack Engineer building a SaaS for Qualitative Research Automation.
+The project is a Monorepo containing a Frontend (Next.js) and a Backend (FastAPI).
+The goal is to build an MVP where researchers can upload audio, transcribe it, and build node-based workflows to analyze data using AI.
+
+## Tech Stack (STRICTLY FOLLOW THIS)
+
+### 1. Frontend (`/frontend`)
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Shadcn/UI (for components)
+- **State/Logic:** React Hooks, React Flow (for the drag-and-drop workflow canvas)
+- **Deployment:** Vercel
+
+### 2. Backend (`/backend`)
+- **Framework:** FastAPI (Python 3.10+)
+- **Language:** Python
+- **Database ORM:** SQLAlchemy (Async)
+- **AI Integration:** OpenAI API (Whisper for audio, GPT-4 for text analysis)
+- **Deployment:** Railway
+
+### 3. Database & Storage
+- **Provider:** Supabase (PostgreSQL)
+- **Vector Search:** pgvector (for semantic search functionality)
+
+## Coding Rules for Cursor
+
+1.  **Monorepo Structure:**
+    - Always be aware of which folder you are editing.
+    - If I ask to create a UI component, put it in `/frontend`.
+    - If I ask to create an API endpoint, put it in `/backend`.
+
+2.  **Beginner-Friendly Explanations:**
+    - The user is NOT a professional developer (Finance/Quant background).
+    - When generating code, explain WHAT it does in simple terms.
+    - If a new library needs to be installed, explicitly state the command (e.g., `pip install xyz` or `npm install xyz`).
+
+3.  **Supabase & Database:**
+    - Do NOT use SQLite. Always assume we are connecting to Supabase PostgreSQL.
+    - Use `python-dotenv` to load API keys (e.g., `DATABASE_URL`).
+
+4.  **Workflow Logic (The Core Feature):**
+    - The core feature is a "Graph" or "Node-based" workflow.
+    - Data structure for workflows should be stored as JSON in the database (nodes list and edges list).
+
+## Common Commands Checklist
+- Frontend run: `cd frontend && npm run dev`
+- Backend run: `cd backend && uvicorn main:app --reload`
