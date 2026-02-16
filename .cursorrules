@@ -1,50 +1,51 @@
 # .cursorrules - Project Context & Rules
 
 ## Project Overview
-You are an expert Senior Full Stack Engineer building a SaaS for Qualitative Research Automation.
-The project is a Monorepo containing a Frontend (Next.js) and a Backend (FastAPI).
-The goal is to build an MVP where researchers can upload audio, transcribe it, and build node-based workflows to analyze data using AI.
+You are an expert Senior Full Stack Engineer building "DataFellas ResTech".
+**Vision:** A low-code, node-based Research Ops platform (similar to KNIME) that acts as a one-stop solution for Mixed Methods Research (Qualitative & Quantitative).
+**Core Feature:** Users drag-and-drop nodes to process raw data (Audio/Excel) into actionable insights (Analysis Grids, Dashboards, Validity Tests).
+**Execution Model:** Trigger-based (User builds flow -> Clicks "Run").
 
 ## Tech Stack (STRICTLY FOLLOW THIS)
 
 ### 1. Frontend (`/frontend`)
 - **Framework:** Next.js 14 (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS + Shadcn/UI (for components)
-- **State/Logic:** React Hooks, React Flow (for the drag-and-drop workflow canvas)
-- **Deployment:** Vercel
+- **UI Library:** Shadcn/UI + Tailwind CSS
+- **Workflow Engine:** **React Flow** (Crucial for the node canvas)
+- **State Management:** **Zustand**
+- **Visualization:** Recharts (for dashboards)
+- **Data Fetching:** TanStack Query (React Query)
 
 ### 2. Backend (`/backend`)
 - **Framework:** FastAPI (Python 3.10+)
-- **Language:** Python
-- **Database ORM:** SQLAlchemy (Async)
-- **AI Integration:** OpenAI API (Whisper for audio, GPT-4 for text analysis)
-- **Deployment:** Railway
+- **Async Processing:** Celery + Redis (for long-running tasks like transcription)
+- **Database ORM:** SQLAlchemy (Async) or Prisma
+- **AI Integration:** OpenAI API (GPT-4o, Whisper) + LangChain
 
-### 3. Database & Storage
+### 3. Data Science & Analysis Engines (Python Libraries)
+- **Data Manipulation:** `pandas`, `numpy` (Reading CSV/Excel, cleaning data)
+- **Statistics (Quant):** `scipy`, `statsmodels` (For Validity, Reliability, Cronbach's Alpha, Correlations)
+- **Unstructured (Qual):** `pypdf` (PDF parsing), `python-docx`
+
+### 4. Database & Storage
 - **Provider:** Supabase (PostgreSQL)
-- **Vector Search:** pgvector (for semantic search functionality)
+- **Vector Search:** `pgvector` (Required for semantic search in qualitative analysis)
+- **Storage:** Supabase Storage (S3 compatible)
 
 ## Coding Rules for Cursor
 
-1.  **Monorepo Structure:**
-    - Always be aware of which folder you are editing.
-    - If I ask to create a UI component, put it in `/frontend`.
-    - If I ask to create an API endpoint, put it in `/backend`.
+1.  **Monorepo Awareness:**
+    - Frontend code goes to `/frontend`. Backend code goes to `/backend`.
+    - Never mix them up.
 
-2.  **Beginner-Friendly Explanations:**
-    - The user is NOT a professional developer (Finance/Quant background).
-    - When generating code, explain WHAT it does in simple terms.
-    - If a new library needs to be installed, explicitly state the command (e.g., `pip install xyz` or `npm install xyz`).
+2.  **Node-Based Architecture:**
+    - When discussing "Workflows", assume a JSON structure containing `nodes` and `edges`.
+    - Backend logic should be modular (One API endpoint per Node type, e.g., `/api/nodes/transcribe`, `/api/nodes/validity-test`).
 
-3.  **Supabase & Database:**
-    - Do NOT use SQLite. Always assume we are connecting to Supabase PostgreSQL.
-    - Use `python-dotenv` to load API keys (e.g., `DATABASE_URL`).
+3.  **Scientific Accuracy:**
+    - For quantitative features, prioritize statistical correctness (e.g., correct formulas for Validity/Reliability).
+    - Use clear variable names (e.g., `cronbach_alpha`, `pearson_correlation`).
 
-4.  **Workflow Logic (The Core Feature):**
-    - The core feature is a "Graph" or "Node-based" workflow.
-    - Data structure for workflows should be stored as JSON in the database (nodes list and edges list).
-
-## Common Commands Checklist
-- Frontend run: `cd frontend && npm run dev`
-- Backend run: `cd backend && uvicorn main:app --reload`
+4.  **Handling "Run Trigger":**
+    - Since execution is trigger-based, the backend should accept a workflow payload, process it asynchronously (Celery), and update the status via WebSocket or Polling.
